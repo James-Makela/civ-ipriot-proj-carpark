@@ -7,7 +7,7 @@ setup(
     install_requires=[
         "paho-mqtt",
         "sense-hat",
-        "tkinter",
+        "tk",
         "toml"
     ],
     entry_points={
