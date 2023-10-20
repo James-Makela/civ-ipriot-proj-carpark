@@ -1,7 +1,7 @@
 """"Demonstrates a simple implementation of an 'event' listener that triggers
 a publication via mqtt"""
 import random
-
+from config_parser import parse_config
 import mqtt_device
 
 
@@ -30,14 +30,7 @@ class Sensor(mqtt_device.MqttDevice):
 
 
 if __name__ == '__main__':
-    config1 = {'name': 'sensor',
-               'location': 'moondalup',
-               'topic-root': "lot",
-               'broker': 'localhost',
-               'port': 1883,
-               'topic-qualifier': "na"
-               }
-    # TODO: Read previous config from file instead of embedding
+    config1 = parse_config('sensor')
 
     sensor1 = Sensor(config1)
 

@@ -1,3 +1,4 @@
+import toml
 """A class or function to parse the config file and return the values as a dictionary.
 
 The config file itself can be any of the following formats:
@@ -32,8 +33,9 @@ Finally, you can use `yaml` if you prefer.
 """
 
 
-
-def parse_config(config: dict) -> dict:
+def parse_config(expected_config) -> dict:
     """Parse the config file and return the values as a dictionary"""
-    # TODO: get the configuration from a parsed file
-    return {'location': 'TBD', 'total_spaces': 0, 'broker_host': 'TBD', 'broker_port': 0}
+    with open('config.toml', 'r') as config_file:
+        config = toml.load(config_file)
+
+    return config[expected_config]
