@@ -60,7 +60,7 @@ class CarPark(mqtt_device.MqttDevice):
         payload = payload.split(',')
         temp = payload[1]
         self.temperature = temp
-        if 'exit' in payload:
+        if 'exit' in payload[0]:
             self.on_car_exit()
         else:
             self.on_car_entry()
