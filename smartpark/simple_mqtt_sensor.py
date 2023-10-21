@@ -23,16 +23,6 @@ class Sensor(mqtt_device.MqttDevice):
         """ A blocking event loop that waits for detection events, in this
         case Enter presses"""
         while True:
-
-            # print("Press E when 🚗 entered!")
-            # print("Press X when 🚖 exited!")
-            # detection = input("E or X> ").upper()
-            # if detection == 'E' or sense.stick.direction_up:
-            #     self.on_detection(f"entered, {self.temperature}")
-            # elif sense.stick.direction_down:
-            #     self.on_detection(f"exited, {self.temperature}")
-            # else:
-            #     self.on_detection(f"exited, {self.temperature}")
             for event in sense2.stick.get_events():
                 if event.action == 'pressed':
                     if event.direction == 'up':
