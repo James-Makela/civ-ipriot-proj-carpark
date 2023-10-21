@@ -21,6 +21,9 @@ class CarPark(mqtt_device.MqttDevice):
     @property
     def available_spaces(self):
         available = self.total_spaces - self.total_cars
+        if available > config["total-spaces"]:
+            self.total_cars = 0
+            return config["total-spaces"]
         return max(available, 0)
 
     @property
