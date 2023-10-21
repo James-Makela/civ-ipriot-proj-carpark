@@ -35,7 +35,6 @@ class Sensor(mqtt_device.MqttDevice):
             #     self.on_detection(f"exited, {self.temperature}")
             for event in sense2.stick.get_events():
                 if event.action == 'pressed':
-                    print(event.direction)
                     if event.direction == 'up':
                         self.on_detection(f"entered, {self.temperature}")
                     elif event.direction == 'down':

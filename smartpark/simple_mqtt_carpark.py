@@ -33,16 +33,20 @@ class CarPark(mqtt_device.MqttDevice):
         
     def _publish_event(self):
         readable_time = datetime.now().strftime('%H:%M')
+        if self.available_spaces == 0:
+            spaces = "CARPARK FULL"
+        else:
+            spaces = f"SPACES: {self.available_spaces}"
         print(
             (
                 f"TIME: {readable_time}, "
-                + f"SPACES: {self.available_spaces}, "
+                + f"{spaces}, "
                 + f"TEMPC: {self.temperature}"
             )
         )
         message = (
             f"TIME: {readable_time}, "
-            + f"SPACES: {self.available_spaces}, "
+            + f"{spaces}, "
             + f"TEMPC: {self.temperature}"
         )
         self.client.publish('display', message)
@@ -57,10 +61,9 @@ class CarPark(mqtt_device.MqttDevice):
 
     def on_message(self, client, userdata, msg: MQTTMessage):
         payload = msg.payload.decode()
-        payload = payload.split(',')
-        temp = payload[1]
+        temp = round(float(payload.split(',')[1]), 1)
         self.temperature = temp
-        if 'exit' in payload[0]:
+        if 'exit' in payload:
             self.on_car_exit()
         else:
             self.on_car_entry()
