@@ -35,7 +35,11 @@ Finally, you can use `yaml` if you prefer.
 
 def parse_config(expected_config) -> dict:
     """Parse the config file and return the values as a dictionary"""
-    with open('config.toml', 'r') as config_file:
-        config = toml.load(config_file)
+    try:
+        with open('../config/config.toml', 'r') as config_file:
+            config = toml.load(config_file)
+    except OSError:
+        with open('config/config.toml', 'r') as config_file:
+            config = toml.load(config_file)
 
     return config[expected_config]

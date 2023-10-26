@@ -32,5 +32,4 @@ class Display(mqtt_device.MqttDevice):
 
 if __name__ == '__main__':
     config = parse_config('display')
-    # TODO: Read config from file
     display = Display(config)
