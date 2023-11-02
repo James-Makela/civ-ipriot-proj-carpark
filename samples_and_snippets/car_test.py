@@ -5,3 +5,7 @@ from samples_and_snippets.numberplate_generator import create_plate
 car = Car(create_plate(), get_car())
 
 print(car.number_plate, car.make_model)
+
+for _ in range(100):
+    car = Car(create_plate(), get_car())
+    print(car.number_plate, car.make_model)

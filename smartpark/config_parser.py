@@ -31,15 +31,17 @@ Finally, you can use `yaml` if you prefer.
 
 
 """
+file_locations = ['../config/config.toml',
+                  'config/config.toml', 'r']
 
 
 def parse_config(expected_config) -> dict:
     """Parse the config file and return the values as a dictionary"""
-    try:
-        with open('../config/config.toml', 'r') as config_file:
-            config = toml.load(config_file)
-    except OSError:
-        with open('config/config.toml', 'r') as config_file:
-            config = toml.load(config_file)
+    for file_location in file_locations:
+        try:
+            with open(file_location, 'r') as config_file:
+                config = toml.load(config_file)
+        except OSError:
+            continue
 
     return config[expected_config]

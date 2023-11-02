@@ -11,19 +11,19 @@ class CarPark(mqtt_device.MqttDevice):
 
     def __init__(self, config):
         super().__init__(config)
+        self.config = config
         self.total_spaces = config['total-spaces']
         self.total_cars = config['total-cars']
         self.client.on_message = self.on_message
         self.client.subscribe('sensor')
-        self.client.loop_forever()
         self._temperature = None
 
     @property
     def available_spaces(self):
         available = self.total_spaces - self.total_cars
-        if available > config["total-spaces"]:
+        if available > self.config["total-spaces"]:
             self.total_cars = 0
-            return config["total-spaces"]
+            return self.config["total-spaces"]
         return max(available, 0)
 
     @property
@@ -71,9 +71,12 @@ class CarPark(mqtt_device.MqttDevice):
         else:
             self.on_car_entry()
 
+    def start_listening(self):
+        self.client.loop_forever()
+
 
 if __name__ == '__main__':
     config = parse_config('carpark')
     car_park = CarPark(config)
-    print("Carpark initialized")
+    car_park.start_listening()
     print("Carpark initialized")

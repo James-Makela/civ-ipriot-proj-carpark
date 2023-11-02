@@ -12,7 +12,6 @@ class Sensor(mqtt_device.MqttDevice):
     @property
     def temperature(self):
         """Returns the current temperature"""
-        #  return random.randint(10, 35)
         return sense2.temperature
 
     def on_detection(self, message):
@@ -37,6 +36,4 @@ if __name__ == '__main__':
     sensor1 = Sensor(config1)
 
     print("Sensor initialized")
-    sensor1.start_sensing()
-
     sensor1.start_sensing()
