@@ -1,6 +1,7 @@
 from datetime import datetime
-
+import toml
 import mqtt_device
+import config
 import paho.mqtt.client as paho
 from paho.mqtt.client import MQTTMessage
 from config_parser import parse_config
@@ -21,9 +22,11 @@ class CarPark(mqtt_device.MqttDevice):
     @property
     def available_spaces(self):
         available = self.total_spaces - self.total_cars
-        if available > self.config["total-spaces"]:
+        assert available > 0, "There should be no cars to exit"
+        if available > self.config['total-spaces']:
             self.total_cars = 0
-            return self.config["total-spaces"]
+            return self.config['total-spaces']
+        self.update_cars_in_config()
         return max(available, 0)
 
     @property
@@ -73,6 +76,12 @@ class CarPark(mqtt_device.MqttDevice):
 
     def start_listening(self):
         self.client.loop_forever()
+
+    def update_cars_in_config(self):
+        old_config = parse_config("all")
+        old_config['carpark']['total-cars'] = self.total_cars
+        with open('../config/config.toml', "w") as config_file:
+            toml.dump(old_config, config_file)
 
 
 if __name__ == '__main__':

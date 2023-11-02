@@ -1,11 +1,12 @@
 import unittest
 import smartpark.config_parser as pc
-import smartpark
-from smartpark import simple_mqtt_carpark
 from smartpark.simple_mqtt_carpark import CarPark
 
 
 class TestCarPark(unittest.TestCase):
+    """
+    This is the unittest class to test the class CarPark
+    """
     def setUp(self):
         self.config = pc.parse_config("carpark")
         self.carpark = CarPark(self.config)

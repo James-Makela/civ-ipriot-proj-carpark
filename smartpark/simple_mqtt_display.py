@@ -11,7 +11,6 @@ class Display(mqtt_device.MqttDevice):
         super().__init__(config)
         self.client.on_message = self.on_message
         self.client.subscribe('display')
-        self.client.loop_forever()
 
     def display(self, *args):
         sense = SenseHat()
@@ -20,16 +19,21 @@ class Display(mqtt_device.MqttDevice):
             print(val)
             # time.sleep(.2)
             sense.show_message(val)
-
         print('*' * 20)
 
     def on_message(self, client, userdata, msg):
         data = msg.payload.decode()
-        self.display(*data.split(','))
-        # TODO: Parse the message and extract free spaces,\
-        #  temperature, time
+        data = data.split(',')
+        free_spaces = data[0]
+        current_time = data[1]
+        temperature = data[2]
+        self.display(free_spaces, current_time, temperature)
+
+    def start_listening(self):
+        self.client.loop_forever()
 
 
 if __name__ == '__main__':
     config = parse_config('display')
     display = Display(config)
+    display.start_listening()

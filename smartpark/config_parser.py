@@ -43,5 +43,6 @@ def parse_config(expected_config) -> dict:
                 config = toml.load(config_file)
         except OSError:
             continue
-
+    if expected_config == "all":
+        return config
     return config[expected_config]
