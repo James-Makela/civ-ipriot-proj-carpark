@@ -11,3 +11,7 @@ class TestDisplay(unittest.TestCase):
 
     def test_display_is_display(self):
         self.assertIsInstance(self.display, Display)
+
+    def test_display_reads_config(self):
+        self.assertEqual(self.display.name, 'display')
+        self.assertEqual(self.display.location, "L306")
