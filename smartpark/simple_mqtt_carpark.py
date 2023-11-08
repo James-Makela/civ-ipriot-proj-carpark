@@ -1,14 +1,12 @@
 from datetime import datetime
 import toml
 import mqtt_device
-import config
-import paho.mqtt.client as paho
 from paho.mqtt.client import MQTTMessage
 from config_parser import parse_config
 
 
 class CarPark(mqtt_device.MqttDevice):
-    """Creates a carpark object to store the state of cars in the lot"""
+    """Creates a car park object to store the state of cars in the lot"""
 
     def __init__(self, config):
         super().__init__(config)
@@ -32,11 +30,11 @@ class CarPark(mqtt_device.MqttDevice):
     @property
     def temperature(self):
         return self._temperature
-    
+
     @temperature.setter
     def temperature(self, value):
         self._temperature = value
-        
+
     def _publish_event(self):
         readable_time = datetime.now().strftime('%H:%M')
         if self.available_spaces == 0:
@@ -78,14 +76,14 @@ class CarPark(mqtt_device.MqttDevice):
         self.client.loop_forever()
 
     def update_cars_in_config(self):
-        old_config = parse_config("all")
-        old_config['carpark']['total-cars'] = self.total_cars
+        full_config = parse_config("all")
+        full_config['car-park']['total-cars'] = self.total_cars
         with open('../config/config.toml', "w") as config_file:
-            toml.dump(old_config, config_file)
+            toml.dump(full_config, config_file)
 
 
 if __name__ == '__main__':
-    config = parse_config('carpark')
-    car_park = CarPark(config)
+    configuration = parse_config('car-park')
+    car_park = CarPark(configuration)
     car_park.start_listening()
-    print("Carpark initialized")
+    print("CarPark initialized")

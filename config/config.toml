@@ -1,7 +1,7 @@
-[carpark]
+[car-park]
 name = "raf-park"
 total-spaces = 130
-total-cars = 18
+total-cars = 24
 location = "L306"
 topic-root = "lot"
 broker = "localhost"

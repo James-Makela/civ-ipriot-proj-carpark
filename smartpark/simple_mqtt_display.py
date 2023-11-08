@@ -1,5 +1,4 @@
 import mqtt_device
-import time
 from config_parser import parse_config
 from sense_emu import SenseHat
 
@@ -12,12 +11,12 @@ class Display(mqtt_device.MqttDevice):
         self.client.on_message = self.on_message
         self.client.subscribe('display')
 
-    def display(self, *args):
+    @staticmethod
+    def display(*args) -> None:
         sense = SenseHat()
         print('*' * 20)
         for val in args:
             print(val)
-            # time.sleep(.2)
             sense.show_message(val)
         print('*' * 20)
 
@@ -34,6 +33,6 @@ class Display(mqtt_device.MqttDevice):
 
 
 if __name__ == '__main__':
-    config = parse_config('display')
-    display = Display(config)
+    configuration = parse_config('display')
+    display = Display(configuration)
     display.start_listening()
